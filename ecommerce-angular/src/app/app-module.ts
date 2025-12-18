@@ -8,6 +8,10 @@ import { Layout } from './layout/layout/layout';
 import { Header } from './layout/header/header';
 import { Footer } from './layout/footer/footer';
 import { HomePage } from './pages/home-page/home-page';
+import { ProductDetailsComponent } from './pages/product-details/product-details';
+import { CartComponent } from './pages/cart/cart';
+import { AddProductComponent } from './pages/admin/add-product/add-product';
+import { NotFoundComponent } from './pages/not-found/not-found';
 
 @NgModule({
   declarations: [
@@ -15,7 +19,11 @@ import { HomePage } from './pages/home-page/home-page';
     Layout,
     Header,
     Footer,
-    HomePage
+    HomePage,
+    ProductDetailsComponent,
+    CartComponent,
+    AddProductComponent,
+    NotFoundComponent
   ],
   imports: [
     BrowserModule,
