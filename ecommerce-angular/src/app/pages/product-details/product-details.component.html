@@ -1,0 +1,37 @@
+<section class="product-details" *ngIf="!isLoading && !errorMessage && product as p">
+  <div class="product-details__image">
+    <img [src]="p.image" [alt]="p.title" />
+  </div>
+  <div class="product-details__info">
+    <h1 class="product-details__title">{{ p.title }}</h1>
+    <p class="product-details__description">{{ p.description }}</p>
+    <p class="product-details__price">${{ p.price }}</p>
+
+    <div class="product-details__actions">
+      <button
+        class="btn btn--primary"
+        *ngIf="!isInCart(p.id)"
+        (click)="addToCart(p)"
+      >
+        Add to Cart
+      </button>
+
+      <button
+        class="btn btn--secondary"
+        *ngIf="isInCart(p.id)"
+        (click)="removeFromCart(p.id)"
+      >
+        Remove from Cart
+      </button>
+    </div>
+  </div>
+</section>
+
+<section class="product-details__loading" *ngIf="isLoading">
+  Loading product details...
+  <!-- In a real app, replace with a skeleton loader -->
+  </section>
+
+<section class="product-details__error" *ngIf="!isLoading && errorMessage">
+  {{ errorMessage }}
+</section>
