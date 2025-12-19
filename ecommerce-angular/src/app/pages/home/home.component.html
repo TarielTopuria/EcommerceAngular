@@ -1,0 +1,40 @@
+<section class="home">
+  <div *ngIf="isLoading" class="state state--loading">Loading products…</div>
+
+  <div *ngIf="!isLoading && errorMessage" class="state state--error">{{ errorMessage }}</div>
+
+  <div *ngIf="!isLoading && !errorMessage && products.length === 0" class="state state--empty">
+    No products available.
+  </div>
+
+  <div *ngIf="!isLoading && !errorMessage && products.length > 0" class="grid">
+    <article
+      class="card"
+      *ngFor="let product of products"
+      (click)="goToProductDetails(product.id)"
+      tabindex="0"
+      role="button"
+      aria-label="View details for {{ product.title }}"
+    >
+      <div class="card__image">
+        <img [src]="product.image" [alt]="product.title" />
+      </div>
+      <div class="card__body">
+        <h3 class="card__title">{{ product.title }}</h3>
+        <div class="card__meta">
+          <span class="card__price">{{ product.price | currency }}</span>
+        </div>
+      </div>
+      <div class="card__actions">
+        <button
+          type="button"
+          class="btn btn--primary"
+          (click)="$event.stopPropagation(); addToCart(product)"
+          aria-label="Add {{ product.title }} to cart"
+        >
+          Add to Cart
+        </button>
+      </div>
+    </article>
+  </div>
+</section>
