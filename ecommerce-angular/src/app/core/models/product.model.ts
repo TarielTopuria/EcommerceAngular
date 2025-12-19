@@ -10,3 +10,11 @@ export interface Product {
     count: number;
   };
 }
+
+export interface CreateProduct {
+  title: string;
+  price: number;
+  description: string;
+  category: string;
+  image: string;
+}

@@ -3,7 +3,7 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
-import { Product } from '../models/product.model';
+import { Product, CreateProduct } from '../models/product.model';
 import { environment } from '../../../environments/environment';
 
 @Injectable({ providedIn: 'root' })
@@ -24,7 +24,7 @@ export class ProductService {
       .pipe(catchError(this.handleError('getProductById')));
   }
 
-  addProduct(product: Product): Observable<Product> {
+  addProduct(product: CreateProduct): Observable<Product> {
     return this.http
       .post<Product>(`${this.apiUrl}/products`, product)
       .pipe(catchError(this.handleError('addProduct')));

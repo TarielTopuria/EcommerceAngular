@@ -3,7 +3,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing-module';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { App } from './app';
 import { Layout } from './layout/layout/layout';
 import { Header } from './layout/header/header';
@@ -30,7 +30,8 @@ import { NotFoundComponent } from './pages/not-found/not-found';
     BrowserModule,
     HttpClientModule,
     AppRoutingModule,
-    FormsModule
+    FormsModule,
+    ReactiveFormsModule
   ],
   providers: [
     provideBrowserGlobalErrorListeners()
