@@ -1,0 +1,42 @@
+<section class="cart">
+  <h2>Your Cart</h2>
+
+  <ng-container *ngIf="cartItems.length > 0; else emptyState">
+    <div class="cart-list" role="table" aria-label="Shopping cart items">
+      <div class="cart-row cart-header" role="row">
+        <div class="cart-cell product" role="columnheader">Product</div>
+        <div class="cart-cell price" role="columnheader">Price</div>
+        <div class="cart-cell quantity" role="columnheader">Quantity</div>
+        <div class="cart-cell subtotal" role="columnheader">Subtotal</div>
+        <div class="cart-cell actions" role="columnheader">Actions</div>
+      </div>
+
+      <div class="cart-row" role="row" *ngFor="let item of cartItems; trackBy: trackByProductId">
+        <div class="cart-cell product" role="cell">{{ item.product.title }}</div>
+        <div class="cart-cell price" role="cell">${{ item.product.price | number:'1.2-2' }}</div>
+        <div class="cart-cell quantity" role="cell">
+          <input
+            type="number"
+            min="1"
+            [ngModel]="item.quantity"
+            (ngModelChange)="item.quantity = $event; onQuantityChange(item)"
+            aria-label="Quantity for {{ item.product.title }}"
+          />
+        </div>
+        <div class="cart-cell subtotal" role="cell">${{ getItemSubtotal(item) | number:'1.2-2' }}</div>
+        <div class="cart-cell actions" role="cell">
+          <button type="button" (click)="removeItem(item.product.id)">Remove</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="cart-total">
+      <span>Total:</span>
+      <strong>${{ totalPrice | number:'1.2-2' }}</strong>
+    </div>
+  </ng-container>
+
+  <ng-template #emptyState>
+    <p class="empty">Your cart is empty.</p>
+  </ng-template>
+</section>

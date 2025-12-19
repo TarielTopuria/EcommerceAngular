@@ -3,13 +3,14 @@ import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing-module';
+import { FormsModule } from '@angular/forms';
 import { App } from './app';
 import { Layout } from './layout/layout/layout';
 import { Header } from './layout/header/header';
 import { Footer } from './layout/footer/footer';
 import { HomeComponent } from './pages/home/home.component';
 import { ProductDetailsComponent } from './pages/product-details/product-details.component';
-import { CartComponent } from './pages/cart/cart';
+import { CartComponent } from './pages/cart/cart.component';
 import { AddProductComponent } from './pages/admin/add-product/add-product';
 import { NotFoundComponent } from './pages/not-found/not-found';
 
@@ -28,7 +29,8 @@ import { NotFoundComponent } from './pages/not-found/not-found';
   imports: [
     BrowserModule,
     HttpClientModule,
-    AppRoutingModule
+    AppRoutingModule,
+    FormsModule
   ],
   providers: [
     provideBrowserGlobalErrorListeners()
