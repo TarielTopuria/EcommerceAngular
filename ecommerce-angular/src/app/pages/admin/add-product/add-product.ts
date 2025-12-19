@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { FormGroup, Validators, NonNullableFormBuilder } from '@angular/forms';
 import { ProductService } from '../../../core/services/product.service';
-import { CreateProduct } from '../../../core/models/product.model';
+import { CreateProduct, Product } from '../../../core/models/product.model';
 
 @Component({
   selector: 'app-add-product',
@@ -14,6 +14,9 @@ export class AddProductComponent {
 
   isSubmitting = false;
   submitSucceeded = false;
+
+  // Sample ID used for optional update/delete demo hooks
+  private readonly sampleProductId: number = 1;
 
   constructor(
     private readonly fb: NonNullableFormBuilder,
@@ -69,6 +72,44 @@ export class AddProductComponent {
       error: (err) => {
         console.error('Failed to create product:', err);
         this.isSubmitting = false;
+      },
+    });
+  }
+
+  // Optional UI hook: Demonstrate update product flow
+  updateSampleProduct(): void {
+    const updatedProduct: Product = {
+      id: this.sampleProductId,
+      title: 'Updated Title',
+      price: 29.99,
+      description: 'Updated description for demonstration.',
+      image: 'https://via.placeholder.com/300x300.png?text=Updated',
+      category: 'electronics',
+    };
+
+    this.productService.updateProduct(this.sampleProductId, updatedProduct).subscribe({
+      next: (res: Product) => {
+        console.log('Product updated:', res);
+      },
+      error: (err) => {
+        console.error('Failed to update product:', err);
+      },
+    });
+  }
+
+  // Optional UI hook: Demonstrate delete product flow
+  deleteSampleProduct(): void {
+    const confirmed = window.confirm(`Delete product with ID ${this.sampleProductId}?`);
+    if (!confirmed) {
+      return;
+    }
+
+    this.productService.deleteProduct(this.sampleProductId).subscribe({
+      next: () => {
+        console.log('Product deleted successfully.');
+      },
+      error: (err) => {
+        console.error('Failed to delete product:', err);
       },
     });
   }
