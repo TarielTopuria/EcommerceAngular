@@ -195,7 +195,6 @@ export class ProductService {
     try {
       window.localStorage.setItem(this.mutationsStorageKey, JSON.stringify(mutations));
     } catch {
-      // ignore storage errors
     }
   }
 }
