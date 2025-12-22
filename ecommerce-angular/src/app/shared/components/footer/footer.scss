@@ -1,13 +1,77 @@
 
 @use '../../../../styles/variables' as *;
 
-footer {
+.app-footer {
 	border-top: 1px solid rgba($color-text, 0.12);
-	padding: 1rem 0;
+	padding: ($spacing-unit * 1.5) 0;
 }
 
-footer p {
-	margin: 0;
-	text-align: center;
+.app-footer__container {
 	padding: 0 $spacing-unit;
+}
+
+.app-footer__grid {
+	display: grid;
+	grid-template-columns: 1fr;
+	gap: $spacing-unit;
+}
+
+@media (min-width: $bp-md) {
+	.app-footer__grid {
+		grid-template-columns: 1.2fr 1fr 1fr;
+		gap: ($spacing-unit * 1.25);
+	}
+}
+
+.app-footer__section {
+	min-width: 0;
+}
+
+.app-footer__title {
+	margin: 0 0 ($spacing-unit * 0.5) 0;
+	font-size: 1rem;
+	line-height: 1.2;
+	color: $color-text;
+}
+
+.app-footer__text {
+	margin: 0;
+	color: rgba($color-text, 0.78);
+	line-height: 1.5;
+}
+
+.app-footer__link {
+	display: inline-flex;
+	align-items: center;
+	width: fit-content;
+	padding: 0.25rem 0;
+	color: rgba($color-text, 0.88);
+	text-decoration: none;
+}
+
+.app-footer__link:hover,
+.app-footer__link:focus-visible {
+	text-decoration: underline;
+}
+
+.app-footer__bottom {
+	display: flex;
+	flex-direction: column;
+	gap: 0.25rem;
+	margin-top: ($spacing-unit * 1.25);
+	padding-top: $spacing-unit;
+	border-top: 1px solid rgba($color-text, 0.08);
+	color: rgba($color-text, 0.7);
+}
+
+@media (min-width: $bp-sm) {
+	.app-footer__bottom {
+		flex-direction: row;
+		align-items: center;
+		justify-content: space-between;
+	}
+}
+
+.app-footer__bottom p {
+	margin: 0;
 }
