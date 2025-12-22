@@ -15,6 +15,7 @@ import { AddProductComponent } from './pages/admin/add-product/add-product';
 import { NotFoundComponent } from './pages/not-found/not-found';
 import { LoaderComponent } from './shared/components/loader/loader.component';
 import { LoaderInterceptor } from './core/interceptors/loader.interceptor';
+import { CategoryFilterPipe } from './shared/pipes/category-filter.pipe';
 
 @NgModule({
   declarations: [
@@ -27,7 +28,8 @@ import { LoaderInterceptor } from './core/interceptors/loader.interceptor';
     CartComponent,
     AddProductComponent,
     NotFoundComponent,
-    LoaderComponent
+    LoaderComponent,
+    CategoryFilterPipe
   ],
   imports: [
     BrowserModule,

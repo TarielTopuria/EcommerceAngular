@@ -12,6 +12,9 @@ import { ProductService } from '../../core/services/product.service';
 })
 export class HomeComponent implements OnInit {
   products: Product[] = [];
+  categories: string[] = [];
+  selectedCategory: string = 'all';
+  filteredProducts: Product[] = [];
   isLoading: boolean = false;
   errorMessage: string | null = null;
 
@@ -22,10 +25,13 @@ export class HomeComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.loadCategories();
+
     this.isLoading = true;
     this.productService.getProducts().subscribe({
       next: (products: Product[]) => {
         this.products = products;
+        this.onCategoryChange(this.selectedCategory);
         this.isLoading = false;
       },
       error: (err: unknown) => {
@@ -35,6 +41,35 @@ export class HomeComponent implements OnInit {
         this.isLoading = false;
       }
     });
+  }
+
+  private loadCategories(): void {
+    this.productService.getCategories().subscribe({
+      next: (categories: string[]) => {
+        this.categories = categories;
+      },
+      error: (err: unknown) => {
+        // eslint-disable-next-line no-console
+        console.error('Failed to load categories', err);
+        this.categories = [];
+      }
+    });
+  }
+
+  onCategorySelect(event: Event): void {
+    const selectElement = event.target as HTMLSelectElement;
+    this.onCategoryChange(selectElement.value);
+  }
+
+  onCategoryChange(category: string): void {
+    this.selectedCategory = category;
+
+    if (category === 'all') {
+      this.filteredProducts = this.products;
+      return;
+    }
+
+    this.filteredProducts = this.products.filter((product: Product) => product.category === category);
   }
 
   goToProductDetails(productId: number): void {
