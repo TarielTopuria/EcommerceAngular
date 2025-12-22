@@ -8,7 +8,7 @@
     <div class="nav__left">
       <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Home</a>
       <a routerLink="/cart" routerLinkActive="active">Cart</a>
-      <a *ngIf="(isAuthenticated$ | async)" routerLink="/admin" routerLinkActive="active">Admin</a>
+      <a *ngIf="(isAuthenticated$ | async) && (isAdmin$ | async)" routerLink="/admin" routerLinkActive="active">Admin</a>
     </div>
 
     <div class="nav__right">
