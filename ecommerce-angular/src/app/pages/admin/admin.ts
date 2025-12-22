@@ -6,13 +6,13 @@ import { ProductService } from '../../core/services/product.service';
 import { Product } from '../../core/models/product.model';
 
 @Component({
-  selector: 'app-add-product',
+  selector: 'app-admin',
   standalone: false,
   templateUrl: './admin.html',
   styleUrls: ['./admin.scss'],
 })
-export class AddProductComponent implements OnInit {
-  addProductForm: FormGroup;
+export class AdminComponent implements OnInit {
+  productForm: FormGroup;
 
   products: Product[] = [];
   isLoadingProducts = false;
@@ -31,7 +31,7 @@ export class AddProductComponent implements OnInit {
     private readonly fb: FormBuilder,
     private readonly productService: ProductService
   ) {
-    this.addProductForm = this.fb.group({
+    this.productForm = this.fb.group({
       title: ['', [Validators.required]],
       price: [0, [Validators.required, Validators.min(0.01)]],
       description: ['', [Validators.required]],
@@ -71,7 +71,7 @@ export class AddProductComponent implements OnInit {
     this.error = null;
     this.editingProductId = product.id;
 
-    this.addProductForm.reset({
+    this.productForm.reset({
       title: product.title ?? '',
       price: product.price ?? 0,
       description: product.description ?? '',
@@ -89,10 +89,10 @@ export class AddProductComponent implements OnInit {
     this.message = null;
     this.error = null;
 
-    this.addProductForm.markAllAsTouched();
-    if (this.addProductForm.invalid) return;
+    this.productForm.markAllAsTouched();
+    if (this.productForm.invalid) return;
 
-    const value = this.addProductForm.getRawValue() as {
+    const value = this.productForm.getRawValue() as {
       title: string;
       price: number;
       description: string;
@@ -158,7 +158,7 @@ export class AddProductComponent implements OnInit {
   }
 
   private resetForm(): void {
-    this.addProductForm.reset({
+    this.productForm.reset({
       title: '',
       price: 0,
       description: '',

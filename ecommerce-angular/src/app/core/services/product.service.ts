@@ -8,7 +8,7 @@ import { environment } from '../../../environments/environment';
 @Injectable({ providedIn: 'root' })
 export class ProductService {
   private readonly apiUrl: string = environment.apiUrl;
-  private readonly useLocalFallback: boolean = this.apiUrl.includes('fakestoreapi.com');
+  private readonly useLocalFallback: boolean = environment.persistLocalMutations ?? false;
   private readonly mutationsStorageKey = 'ecommerce.products.mutations.v1';
 
   private defaultMutations(): ProductMutations {
@@ -198,11 +198,6 @@ export class ProductService {
       // ignore storage errors
     }
   }
-
-  // Ticket 9: UI for update/delete is optional.
-  // Example usage (call from any component):
-  // this.productService.updateProduct(1, product).subscribe({ next: console.log, error: console.error });
-  // this.productService.deleteProduct(1).subscribe({ next: () => console.log('deleted'), error: console.error });
 }
 
 type ProductMutations = {
