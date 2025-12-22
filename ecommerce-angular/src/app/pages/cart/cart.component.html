@@ -1,8 +1,11 @@
-<section class="cart">
-  <h2>Your Cart</h2>
+<section class="cart page">
+  <header class="page-header">
+    <h2 class="page-header__title">Your Cart</h2>
+    <p class="page-header__subtitle">Review quantities and proceed to checkout.</p>
+  </header>
 
   <ng-container *ngIf="cartItems.length > 0; else emptyState">
-    <form class="cart-list" [formGroup]="quantityForm">
+    <form class="cart-list surface" [formGroup]="quantityForm">
       <div class="cart-header">
         <div class="cart-cell product">Product</div>
         <div class="cart-cell price">Price</div>
@@ -15,22 +18,25 @@
         <div class="cart-cell product" data-label="Product">{{ item.product.title }}</div>
         <div class="cart-cell price" data-label="Price">${{ item.product.price | number:'1.2-2' }}</div>
         <div class="cart-cell quantity" data-label="Quantity">
-          <input type="number" min="1" [formControlName]="item.product.id.toString()" (change)="onQuantityChange(item.product.id)" />
+          <input class="input" type="number" min="1" [formControlName]="item.product.id.toString()" (change)="onQuantityChange(item.product.id)" />
         </div>
         <div class="cart-cell subtotal" data-label="Subtotal">${{ getItemSubtotal(item) | number:'1.2-2' }}</div>
         <div class="cart-cell actions" data-label="Actions">
-          <button type="button" (click)="removeItem(item.product.id)">Remove</button>
+          <button type="button" class="btn btn--danger" (click)="removeItem(item.product.id)">Remove</button>
         </div>
       </div>
     </form>
 
-    <div class="cart-total">
+    <div class="cart-total surface">
       <span>Total:</span>
       <strong>${{ totalPrice | number:'1.2-2' }}</strong>
     </div>
   </ng-container>
 
   <ng-template #emptyState>
-    <p class="empty">Your cart is empty.</p>
+    <div class="empty surface">
+      <p class="muted">Your cart is empty.</p>
+      <a class="btn btn--primary" routerLink="/">Browse products</a>
+    </div>
   </ng-template>
 </section>

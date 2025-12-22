@@ -1,64 +1,67 @@
-<section class="auth-page">
-  <h2>Register</h2>
+<section class="auth-page page">
+  <header class="page-header">
+    <h2 class="page-header__title">Create account</h2>
+    <p class="page-header__subtitle">Create your profile in a minute.</p>
+  </header>
 
   <p class="success" *ngIf="message">{{ message }}</p>
   <p class="error" *ngIf="error">{{ error }}</p>
 
-  <form [formGroup]="form" (ngSubmit)="submit()" novalidate>
+  <form class="surface" [formGroup]="form" (ngSubmit)="submit()" novalidate>
     <div class="grid">
       <div class="form-field">
         <label for="email">Email</label>
-        <input id="email" type="email" formControlName="email" autocomplete="email" />
+        <input class="input" id="email" type="email" formControlName="email" autocomplete="email" />
       </div>
 
       <div class="form-field">
         <label for="username">Username</label>
-        <input id="username" type="text" formControlName="username" autocomplete="username" />
+        <input class="input" id="username" type="text" formControlName="username" autocomplete="username" />
       </div>
 
       <div class="form-field">
         <label for="firstName">First name</label>
-        <input id="firstName" type="text" formControlName="firstName" autocomplete="given-name" />
+        <input class="input" id="firstName" type="text" formControlName="firstName" autocomplete="given-name" />
       </div>
 
       <div class="form-field">
         <label for="lastName">Last name</label>
-        <input id="lastName" type="text" formControlName="lastName" autocomplete="family-name" />
+        <input class="input" id="lastName" type="text" formControlName="lastName" autocomplete="family-name" />
       </div>
 
       <div class="form-field">
         <label for="phone">Phone</label>
-        <input id="phone" type="tel" formControlName="phone" autocomplete="tel" />
+        <input class="input" id="phone" type="tel" formControlName="phone" autocomplete="tel" />
       </div>
 
       <div class="form-field">
         <label for="city">City</label>
-        <input id="city" type="text" formControlName="city" />
+        <input class="input" id="city" type="text" formControlName="city" />
       </div>
 
       <div class="form-field">
         <label for="street">Street</label>
-        <input id="street" type="text" formControlName="street" />
+        <input class="input" id="street" type="text" formControlName="street" />
       </div>
 
       <div class="form-field">
         <label for="streetNumber">Street number</label>
-        <input id="streetNumber" type="number" min="1" formControlName="streetNumber" />
+        <input class="input" id="streetNumber" type="number" min="1" formControlName="streetNumber" />
       </div>
 
       <div class="form-field">
         <label for="zipcode">Zip code</label>
-        <input id="zipcode" type="text" formControlName="zipcode" />
+        <input class="input" id="zipcode" type="text" formControlName="zipcode" />
       </div>
 
       <div class="form-field">
         <label for="password">Password</label>
-        <input id="password" type="password" formControlName="password" autocomplete="new-password" />
+        <input class="input" id="password" type="password" formControlName="password" autocomplete="new-password" />
       </div>
 
       <div class="form-field">
         <label for="confirmPassword">Confirm password</label>
-        <input id="confirmPassword" type="password" formControlName="confirmPassword" autocomplete="new-password" />
+        <input class="input" id="confirmPassword" type="password" formControlName="confirmPassword" autocomplete="new-password" />
       </div>
     </div>
 
@@ -67,8 +70,8 @@
     </div>
 
     <div class="actions">
-      <button type="submit" [disabled]="isSubmitting">Create account</button>
-      <button type="button" class="btn-secondary" (click)="goToLogin()" [disabled]="isSubmitting">Back to login</button>
+      <button type="submit" class="btn btn--primary" [disabled]="isSubmitting">Create account</button>
+      <button type="button" class="btn btn--secondary" (click)="goToLogin()" [disabled]="isSubmitting">Back to login</button>
     </div>
   </form>
 </section>

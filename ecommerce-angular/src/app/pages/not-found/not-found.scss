@@ -13,36 +13,6 @@
 	max-width: 600px;
 }
 
-.not-found h1 {
-	margin: 0 0 $spacing-unit;
-	font-size: clamp(1.5rem, 3vw, 2rem);
-	font-weight: 600;
-}
-
-.not-found p {
-	margin: 0 0 $spacing-unit * 2;
-	font-size: 1rem;
-}
-
-.btn {
-	appearance: none;
-	border: none;
-	border-radius: 6px;
-	padding: 0.75rem 1.25rem;
-	font-size: 1rem;
-	cursor: pointer;
-}
-
-.btn-primary {
-	background-color: $color-primary;
-	color: #fff;
-}
-
-.btn-primary:hover,
-.btn-primary:focus {
-	filter: brightness(0.95);
-}
-
 .visually-hidden {
 	position: absolute;
 	width: 1px;

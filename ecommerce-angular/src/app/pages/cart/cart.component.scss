@@ -6,6 +6,7 @@
 .cart-list {
   display: grid;
   gap: 0.5rem;
+	padding: 1rem;
 }
 
 .cart-header,
@@ -28,20 +29,11 @@
 
 .cart-cell.quantity input {
   width: 80px;
-  padding: 0.25rem 0.5rem;
-}
-
-.cart-cell.actions button {
-  padding: 0.4rem 0.75rem;
-  border: 1px solid var(--app-danger);
-  background: var(--app-danger);
-  color: #fff;
-  border-radius: 4px;
-  cursor: pointer;
 }
 
 .cart-total {
-  margin-top: 1rem;
+	margin-top: 1rem;
+	padding: 0.9rem 1rem;
   display: flex;
   justify-content: flex-end;
   align-items: baseline;
@@ -50,7 +42,11 @@
 }
 
 .empty {
-  color: var(--app-text-muted);
+	padding: 1rem;
+	display: grid;
+	gap: 0.75rem;
+	justify-items: center;
+	text-align: center;
 }
 
 @media (max-width: 640px) {

@@ -7,5 +7,28 @@
 
 .app-main {
 	flex: 1;
-	padding: 1.25rem 0;
+	padding: 1.25rem 0 1.75rem;
+}
+
+.app-main > .container {
+	padding-top: 1.25rem;
+	padding-bottom: 1.25rem;
+	background: var(--app-surface);
+	border: 1px solid var(--app-border);
+	border-radius: var(--app-radius);
+	box-shadow: var(--app-shadow-2);
+}
+
+@media (max-width: 640px) {
+	.app-main {
+		padding: 0.75rem 0 1rem;
+	}
+
+	.app-main > .container {
+		padding-top: 1rem;
+		padding-bottom: 1rem;
+		border-radius: 0;
+		border-left: 0;
+		border-right: 0;
+	}
 }

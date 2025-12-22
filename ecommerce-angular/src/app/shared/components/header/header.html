@@ -1,5 +1,10 @@
 <header class="app-header">
   <nav class="nav">
+    <a class="brand" routerLink="/" aria-label="Go to home">
+      <span class="brand__mark" aria-hidden="true"></span>
+      <span class="brand__name">Ecommerce</span>
+    </a>
+
     <div class="nav__left">
       <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Home</a>
       <a routerLink="/cart" routerLinkActive="active">Cart</a>
@@ -7,13 +12,13 @@
     </div>
 
     <div class="nav__right">
-      <button type="button" class="nav__btn" (click)="toggleTheme()">
+      <button type="button" class="btn btn--ghost nav__btn" (click)="toggleTheme()">
         Theme: {{ (theme$ | async) === 'dark' ? 'Dark' : 'Light' }}
       </button>
 
       <ng-container *ngIf="(isAuthenticated$ | async); else loggedOut">
         <span class="nav__user" *ngIf="(username$ | async) as u">{{ u }}</span>
-        <button type="button" class="nav__btn" (click)="logout()">Logout</button>
+        <button type="button" class="btn btn--ghost nav__btn" (click)="logout()">Logout</button>
       </ng-container>
 
       <ng-template #loggedOut>

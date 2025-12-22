@@ -7,6 +7,7 @@ form {
   display: flex;
   flex-direction: column;
   gap: 1rem;
+	padding: 1rem;
 }
 
 .form-field {
@@ -19,35 +20,12 @@ label {
   font-weight: 600;
 }
 
-input {
-  padding: 0.5rem 0.75rem;
-  border-radius: 6px;
-  border: 1px solid var(--app-border);
-  background: var(--app-surface);
-  color: var(--app-text);
-}
-
 .actions {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 1rem;
   flex-wrap: wrap;
-}
-
-button {
-  padding: 0.6rem 1rem;
-  border-radius: 6px;
-  border: none;
-  background: var(--app-primary);
-  color: #fff;
-  font-weight: 600;
-  cursor: pointer;
-}
-
-button[disabled] {
-  opacity: 0.6;
-  cursor: not-allowed;
 }
 
 .error {

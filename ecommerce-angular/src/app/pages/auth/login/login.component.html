@@ -1,12 +1,15 @@
-<section class="auth-page">
-  <h2>Login</h2>
+<section class="auth-page page">
+  <header class="page-header">
+    <h2 class="page-header__title">Login</h2>
+    <p class="page-header__subtitle">Welcome back. Sign in to continue.</p>
+  </header>
 
   <p class="error" *ngIf="error">{{ error }}</p>
 
-  <form [formGroup]="form" (ngSubmit)="submit()" novalidate>
+  <form class="surface" [formGroup]="form" (ngSubmit)="submit()" novalidate>
     <div class="form-field">
       <label for="username">Username</label>
-      <input id="username" type="text" formControlName="username" autocomplete="username" />
+      <input class="input" id="username" type="text" formControlName="username" autocomplete="username" />
       <div class="error" *ngIf="form.get('username')?.touched && form.get('username')?.hasError('required')">
         Username is required.
       </div>
@@ -14,7 +17,7 @@
 
     <div class="form-field">
       <label for="password">Password</label>
-      <input id="password" type="password" formControlName="password" autocomplete="current-password" />
+      <input class="input" id="password" type="password" formControlName="password" autocomplete="current-password" />
       <div class="error" *ngIf="form.get('password')?.touched && form.get('password')?.hasError('required')">
         Password is required.
       </div>
@@ -24,7 +27,7 @@
     </div>
 
     <div class="actions">
-      <button type="submit" [disabled]="isSubmitting">Login</button>
+      <button type="submit" class="btn btn--primary" [disabled]="isSubmitting">Login</button>
       <a class="link" routerLink="/register">Create an account</a>
     </div>
   </form>

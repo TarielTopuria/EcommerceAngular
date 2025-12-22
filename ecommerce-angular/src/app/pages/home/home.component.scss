@@ -8,7 +8,6 @@
   display: flex;
   align-items: center;
   gap: 0.75rem;
-  margin-bottom: $spacing-unit;
   flex-wrap: wrap;
 
   &__label {
@@ -18,17 +17,7 @@
 
   &__select {
     min-width: 220px;
-    padding: 0.5rem 0.75rem;
-    border-radius: 6px;
-    border: 1px solid var(--app-border);
-    background: var(--app-surface);
-    color: var(--app-text);
-
-    &:focus {
-      outline: none;
-      border-color: $color-primary;
-      box-shadow: 0 0 0 3px rgba($color-primary, 0.2);
-    }
+    padding: 0.55rem 0.75rem;
   }
 }
 
@@ -74,16 +63,14 @@
   flex-direction: column;
   background: var(--app-surface);
   border: 1px solid var(--app-border);
-  border-radius: 8px;
+  border-radius: var(--app-radius);
   overflow: hidden;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
   cursor: pointer;
-  transition: transform 0.15s ease, box-shadow 0.15s ease;
+  transition: transform 0.15s ease;
 
   &:hover,
   &:focus {
     transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
     outline: none;
   }
 
@@ -126,7 +113,7 @@
 
   &__price {
     font-weight: 700;
-    color: #1a6f3b;
+    color: var(--app-text);
   }
 
   &__actions {
@@ -135,29 +122,5 @@
     border-top: 1px solid var(--app-border);
     display: flex;
     justify-content: flex-end;
-  }
-}
-
-.btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  border: none;
-  border-radius: 6px;
-  padding: 0.5rem 0.75rem;
-  font-size: 0.9rem;
-  line-height: 1;
-  cursor: pointer;
-  transition: background-color 0.15s ease, box-shadow 0.15s ease;
-
-  &--primary {
-    background-color: $color-primary;
-    color: #fff;
-  }
-
-  &--primary:hover,
-  &--primary:focus {
-    filter: brightness(0.95);
-    box-shadow: 0 0 0 3px rgba($color-primary, 0.2);
   }
 }

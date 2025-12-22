@@ -1,28 +1,21 @@
-<section class="product-details" *ngIf="product as p">
-  <div class="product-details__image">
-    <img [src]="p.image" [alt]="p.title" />
-  </div>
-  <div class="product-details__info">
-    <h1 class="product-details__title">{{ p.title }}</h1>
-    <p class="product-details__description">{{ p.description }}</p>
-    <p class="product-details__price">${{ p.price }}</p>
+<section class="page" *ngIf="product as p">
+  <header class="page-header">
+    <h1 class="page-header__title">{{ p.title }}</h1>
+    <p class="page-header__subtitle">Details, pricing, and description.</p>
+  </header>
 
-    <div class="product-details__actions">
-      <button
-        class="btn btn--primary"
-        *ngIf="!inCart"
-        (click)="addToCart(p)"
-      >
-        Add to Cart
-      </button>
+  <div class="product-details">
+    <div class="product-details__image surface">
+      <img [src]="p.image" [alt]="p.title" />
+    </div>
+    <div class="product-details__info surface">
+      <p class="product-details__description">{{ p.description }}</p>
+      <p class="product-details__price">${{ p.price }}</p>
 
-      <button
-        class="btn btn--secondary"
-        *ngIf="inCart"
-        (click)="removeFromCart(p.id)"
-      >
-        Remove from Cart
-      </button>
+      <div class="product-details__actions">
+        <button class="btn btn--primary" *ngIf="!inCart" (click)="addToCart(p)">Add to Cart</button>
+        <button class="btn btn--secondary" *ngIf="inCart" (click)="removeFromCart(p.id)">Remove from Cart</button>
+      </div>
     </div>
   </div>
 </section>
