@@ -61,3 +61,52 @@ button[disabled] {
 	color: #2da44e;
 	font-weight: 600;
 }
+
+.product-list {
+  margin-top: 2rem;
+}
+
+.table-wrap {
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th,
+td {
+  text-align: left;
+  padding: 0.6rem 0;
+  border-bottom: 1px solid #d0d7de;
+  vertical-align: top;
+}
+
+.col-price {
+  white-space: nowrap;
+}
+
+.row-actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.btn-secondary {
+  padding: 0.6rem 1rem;
+  background: transparent;
+  border: 1px solid #d0d7de;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.btn-danger {
+  padding: 0.6rem 1rem;
+  background: #b3261e;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+}

@@ -1,11 +1,12 @@
+@use '../../../styles/variables' as *;
+
 .product-details {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 2rem;
   align-items: start;
-  max-width: 1000px;
-  margin: 2rem auto;
-  padding: 1rem;
+  margin: 1.5rem 0;
+  padding: 0;
 }
 
 .product-details__image {
@@ -57,7 +58,7 @@
 }
 
 .btn--primary {
-  background-color: #007bff;
+  background-color: $color-primary;
   color: #fff;
 }
 
@@ -75,5 +76,13 @@
 @media (max-width: 768px) {
   .product-details {
     grid-template-columns: 1fr;
+  }
+
+  .product-details__actions {
+    flex-direction: column;
+  }
+
+  .btn {
+    width: 100%;
   }
 }

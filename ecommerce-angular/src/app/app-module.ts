@@ -11,7 +11,7 @@ import { Footer } from './shared/components/footer/footer';
 import { HomeComponent } from './pages/home/home.component';
 import { ProductDetailsComponent } from './pages/product-details/product-details.component';
 import { CartComponent } from './pages/cart/cart.component';
-import { AddProductComponent } from './pages/admin/add-product/add-product';
+import { AddProductComponent } from './pages/admin/admin';
 import { NotFoundComponent } from './pages/not-found/not-found';
 import { LoaderComponent } from './shared/components/loader/loader.component';
 import { LoaderInterceptor } from './core/services/loader.interceptor';
