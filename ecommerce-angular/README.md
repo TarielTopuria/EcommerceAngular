@@ -1,59 +1,111 @@
 # EcommerceAngular
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 20.3.13.
+Simple ecommerce demo built with Angular, using the public FakeStore API.
 
-## Development server
+## Features / business logic
 
-To start a local development server, run:
+### Products
 
-```bash
-ng serve
+- Product catalog is loaded from `https://fakestoreapi.com/products`.
+- Product details are loaded from `https://fakestoreapi.com/products/:id`.
+
+### Cart
+
+- Cart is client-side only.
+- Cart items are persisted in `localStorage` under the key `cart_items`.
+- Quantity updates:
+	- quantity `<= 0` removes the item
+	- otherwise quantity is updated and persisted
+
+### Authentication
+
+- Login calls `POST https://fakestoreapi.com/auth/login` with `{ username, password }`.
+- On success, the app stores:
+	- token in `localStorage` key `ecommerce.auth.token.v1`
+	- username in `localStorage` key `ecommerce.auth.username.v1`
+- Logout clears those values.
+
+Important: this project does not attach the token to outgoing requests (there is no auth header interceptor). The token is used for client-side gating only.
+
+### Admin access (demo only)
+
+Admin pages are protected in the frontend by a hardcoded allowlist (not secure, can be spoofed by editing localStorage).
+
+- Configure admin usernames in `src/environments/environment.ts`:
+
+```ts
+export const environment = {
+	apiUrl: 'https://fakestoreapi.com',
+	persistLocalMutations: true,
+	adminUsernames: ['mor_2314'],
+};
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+Rules:
 
-## Code scaffolding
+- Not logged in → redirect to `/login?returnUrl=...`
+- Logged in but not in `adminUsernames` → redirect to `/`
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+### Product mutations (local fallback)
 
-```bash
-ng generate component component-name
-```
+FakeStore API is a public demo API. This project optionally keeps local "mutations" (created/updated/deleted products) so the Admin UI feels consistent.
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+- Controlled by `persistLocalMutations` in `src/environments/environment.ts`.
+- When enabled, local mutations are stored in `localStorage` under `ecommerce.products.mutations.v1` and applied on top of the remote product list.
 
-```bash
-ng generate --help
-```
+### Theme
 
-## Building
+- Light/Dark theme toggle.
+- Theme is persisted in `localStorage` under `ecommerce.theme.v1`.
 
-To build the project run:
+## Run locally
 
-```bash
-ng build
-```
+Prerequisites:
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+- Node.js + npm
 
-## Running unit tests
-
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
+Install dependencies:
 
 ```bash
-ng test
+cd ecommerce-angular
+npm install
 ```
 
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
+Start dev server:
 
 ```bash
-ng e2e
+npm start
 ```
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
+Open:
 
-## Additional Resources
+- `http://localhost:4200/`
 
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+Useful URLs:
+
+- Home: `/`
+- Cart: `/cart`
+- Login: `/login`
+- Register: `/register`
+- Admin: `/admin` (requires demo-admin user)
+
+## Demo credentials
+
+FakeStore provides demo users. This repo is configured with `adminUsernames: ['mor_2314']`, so you can use:
+
+- username: `mor_2314`
+- password: `83r5^_`
+
+If you change `adminUsernames`, make sure you pick usernames that FakeStore accepts.
+
+## Scripts
+
+- `npm start` - run development server
+- `npm run build` - production build
+- `npm test` - run unit tests (Karma)
+- `npm run watch` - build in watch mode
+
+## Troubleshooting
+
+- If login keeps failing, verify you have internet access and that `apiUrl` is set to `https://fakestoreapi.com`.
+- If you get unexpected admin access, remember this is demo-only and uses client-side storage.
