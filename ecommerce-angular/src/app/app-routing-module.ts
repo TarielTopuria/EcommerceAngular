@@ -11,7 +11,7 @@ const routes: Routes = [
   { path: 'products/:id', component: ProductDetailsComponent },
   { path: 'cart', component: CartComponent },
   { path: 'admin', component: AdminComponent },
-  { path: 'admin/products/add', redirectTo: 'admin', pathMatch: 'full' },
+  { path: 'admin/products/add', component: AdminComponent },
   { path: '**', component: NotFoundComponent }
 ];
 

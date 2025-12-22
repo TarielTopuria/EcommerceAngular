@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, DestroyRef, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { CartService } from '../../core/services/cart.service';
 import { CartItem } from '../../core/models/cart-item.model';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-cart',
@@ -16,11 +17,18 @@ export class CartComponent implements OnInit {
 
   constructor(
     private readonly cartService: CartService,
-    private readonly fb: FormBuilder
+    private readonly fb: FormBuilder,
+    private readonly destroyRef: DestroyRef
   ) {}
 
   ngOnInit(): void {
-    this.refreshCart();
+    this.cartService.cartItems$
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe((items) => {
+        this.cartItems = items;
+        this.syncQuantityForm(items);
+        this.calculateTotalPrice();
+      });
   }
 
   onQuantityChange(productId: number): void {
@@ -30,12 +38,10 @@ export class CartComponent implements OnInit {
       control.setValue(quantity, { emitEvent: false });
     }
     this.cartService.updateQuantity(productId, quantity);
-    this.refreshCart();
   }
 
   removeItem(productId: number): void {
     this.cartService.removeFromCart(productId);
-    this.refreshCart();
   }
 
   getItemSubtotal(item: CartItem): number {
@@ -50,16 +56,34 @@ export class CartComponent implements OnInit {
     this.totalPrice = this.cartItems.reduce((sum, item) => sum + item.product.price * item.quantity, 0);
   }
 
-  private refreshCart(): void {
-    this.cartItems = this.cartService.getCartItems();
-    const controls: Record<string, FormControl<number>> = {};
-    for (const item of this.cartItems) {
-      controls[item.product.id.toString()] = new FormControl(item.quantity, {
-        nonNullable: true,
-        validators: [Validators.required, Validators.min(1)],
-      });
+  private syncQuantityForm(items: CartItem[]): void {
+    if (!this.quantityForm || !(this.quantityForm instanceof FormGroup)) {
+      this.quantityForm = this.fb.group({});
     }
-    this.quantityForm = this.fb.group(controls);
-    this.calculateTotalPrice();
+
+    const desiredIds = new Set<string>();
+    for (const item of items) {
+      const id = item.product.id.toString();
+      desiredIds.add(id);
+
+      const existing = this.quantityForm.get(id) as FormControl<number> | null;
+      if (!existing) {
+        this.quantityForm.addControl(
+          id,
+          new FormControl(item.quantity, {
+            nonNullable: true,
+            validators: [Validators.required, Validators.min(1)],
+          })
+        );
+      } else if (existing.value !== item.quantity) {
+        existing.setValue(item.quantity, { emitEvent: false });
+      }
+    }
+
+    for (const key of Object.keys(this.quantityForm.controls)) {
+      if (!desiredIds.has(key)) {
+        this.quantityForm.removeControl(key);
+      }
+    }
   }
 }

@@ -26,28 +26,25 @@ export class HomeComponent implements OnInit {
 
   ngOnInit(): void {
     this.productService
-      .getCategories()
-      .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe({
-        next: (categories: string[]) => {
-          this.categories = categories;
-        },
-        error: (err: unknown) => {
-          console.error(err);
-          this.categories = [];
-        }
-      });
-
-    this.productService
       .getProducts()
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
         next: (products: Product[]) => {
           this.products = products;
+          const set = new Set<string>();
+          for (const p of products ?? []) {
+            if (p?.category) set.add(p.category);
+          }
+          this.categories = Array.from(set).sort((a, b) => a.localeCompare(b));
+          if (this.selectedCategory !== 'all' && !set.has(this.selectedCategory)) {
+            this.selectedCategory = 'all';
+          }
         },
         error: (err: unknown) => {
           console.error(err);
           this.products = [];
+          this.categories = [];
+          this.selectedCategory = 'all';
         }
       });
   }

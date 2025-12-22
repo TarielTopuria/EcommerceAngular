@@ -1,36 +1,48 @@
 import { Injectable } from '@angular/core';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { Product } from '../models/product.model';
 import { CartItem } from '../models/cart-item.model';
 
 @Injectable({ providedIn: 'root' })
 export class CartService {
   private readonly STORAGE_KEY = 'cart_items';
-  private cartItems: CartItem[] = [];
+  private readonly cartItemsSubject: BehaviorSubject<CartItem[]>;
+  readonly cartItems$: Observable<CartItem[]>;
 
   constructor() {
-    this.cartItems = this.loadFromStorage();
+    const initial = this.loadFromStorage();
+    this.cartItemsSubject = new BehaviorSubject<CartItem[]>(initial);
+    this.cartItems$ = this.cartItemsSubject.asObservable();
   }
 
   getCartItems(): CartItem[] {
-    return this.cartItems.map((item) => ({ ...item }));
+    return this.cartItemsSubject.value.map((item) => ({ ...item }));
+  }
+
+  isInCart(productId: number): boolean {
+    return this.cartItemsSubject.value.some((ci) => ci.product.id === productId);
   }
 
   addToCart(product: Product): void {
-    const index = this.cartItems.findIndex((ci) => ci.product.id === product.id);
+    const items = this.cartItemsSubject.value;
+    const index = items.findIndex((ci) => ci.product.id === product.id);
+    const next = items.slice();
+
     if (index >= 0) {
-      this.cartItems[index] = {
-        product: this.cartItems[index].product,
-        quantity: this.cartItems[index].quantity + 1,
+      next[index] = {
+        product: next[index].product,
+        quantity: next[index].quantity + 1,
       };
     } else {
-      this.cartItems.push({ product, quantity: 1 });
+      next.push({ product, quantity: 1 });
     }
-    this.saveToStorage();
+
+    this.commit(next);
   }
 
   removeFromCart(productId: number): void {
-    this.cartItems = this.cartItems.filter((ci) => ci.product.id !== productId);
-    this.saveToStorage();
+    const next = this.cartItemsSubject.value.filter((ci) => ci.product.id !== productId);
+    this.commit(next);
   }
 
   updateQuantity(productId: number, quantity: number): void {
@@ -38,14 +50,26 @@ export class CartService {
       this.removeFromCart(productId);
       return;
     }
-    const index = this.cartItems.findIndex((ci) => ci.product.id === productId);
-    if (index >= 0) {
-      this.cartItems[index] = {
-        product: this.cartItems[index].product,
-        quantity,
-      };
-      this.saveToStorage();
-    }
+
+    const items = this.cartItemsSubject.value;
+    const index = items.findIndex((ci) => ci.product.id === productId);
+    if (index < 0) return;
+
+    const next = items.slice();
+    next[index] = {
+      product: next[index].product,
+      quantity,
+    };
+    this.commit(next);
+  }
+
+  private commit(items: CartItem[]): void {
+    const normalized = items
+      .filter((ci) => !!ci && !!ci.product && typeof ci.product.id === 'number' && ci.quantity > 0)
+      .map((ci) => ({ product: ci.product, quantity: ci.quantity }));
+
+    this.cartItemsSubject.next(normalized);
+    this.saveToStorage(normalized);
   }
 
   private loadFromStorage(): CartItem[] {
@@ -79,9 +103,9 @@ export class CartService {
     }
   }
 
-  private saveToStorage(): void {
+  private saveToStorage(items: CartItem[]): void {
     try {
-      localStorage.setItem(this.STORAGE_KEY, JSON.stringify(this.cartItems));
+      localStorage.setItem(this.STORAGE_KEY, JSON.stringify(items));
     } catch {
     }
   }

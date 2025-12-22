@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, of, throwError, map, tap } from 'rxjs';
+import { Observable, of, throwError, map, tap, catchError } from 'rxjs';
 
 import { Product } from '../models/product.model';
 import { environment } from '../../../environments/environment';
@@ -19,17 +19,16 @@ export class ProductService {
 
   getProducts(): Observable<Product[]> {
     return this.http.get<Product[]>(`${this.apiUrl}/products`).pipe(
-      map((remote) => (this.useLocalFallback ? this.applyMutationsToList(remote ?? []) : remote ?? []))
+      map((remote) => (this.useLocalFallback ? this.applyMutationsToList(remote ?? []) : remote ?? [])),
+      catchError((err: unknown) => throwError(() => err))
     );
-  }
-
-  getCategories(): Observable<string[]> {
-    return this.http.get<string[]>(`${this.apiUrl}/products/categories`);
   }
 
   getProductById(id: number): Observable<Product> {
     if (!this.useLocalFallback) {
-      return this.http.get<Product>(`${this.apiUrl}/products/${id}`);
+      return this.http.get<Product>(`${this.apiUrl}/products/${id}`).pipe(
+        catchError((err: unknown) => throwError(() => err))
+      );
     }
 
     const mutations = this.readMutations();
@@ -43,7 +42,8 @@ export class ProductService {
     }
 
     return this.http.get<Product>(`${this.apiUrl}/products/${id}`).pipe(
-      map((remote) => mutations.updated[id] ?? remote)
+      map((remote) => mutations.updated[id] ?? remote),
+      catchError((err: unknown) => throwError(() => err))
     );
   }
 
@@ -72,7 +72,8 @@ export class ProductService {
 
         this.persistCreated(created);
         return created;
-      })
+      }),
+      catchError((err: unknown) => throwError(() => err))
     );
   }
 
@@ -87,7 +88,8 @@ export class ProductService {
         }
 
         return updated;
-      })
+      }),
+      catchError((err: unknown) => throwError(() => err))
     );
   }
 
@@ -97,7 +99,8 @@ export class ProductService {
         if (this.useLocalFallback) {
           this.persistDeleted(id);
         }
-      })
+      }),
+      catchError((err: unknown) => throwError(() => err))
     );
   }
 

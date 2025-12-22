@@ -25,6 +25,16 @@ export class ProductDetailsComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.cartService.cartItems$
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe(() => {
+        if (!this.product) {
+          this.inCart = false;
+          return;
+        }
+        this.inCart = this.cartService.isInCart(this.product.id);
+      });
+
     this.route.paramMap.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((params: ParamMap) => {
       const idParam = params.get('id');
       const id = idParam !== null ? Number(idParam) : NaN;
@@ -39,7 +49,7 @@ export class ProductDetailsComponent implements OnInit {
         .subscribe({
           next: (product: Product) => {
             this.product = product;
-            this.inCart = this.cartService.getCartItems().some((item) => item.product.id === product.id);
+            this.inCart = this.cartService.isInCart(product.id);
           },
           error: (err: unknown) => {
             console.error(err);

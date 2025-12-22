@@ -5,7 +5,7 @@ import { LoaderService } from '../../../core/services/loader.service';
 @Component({
   selector: 'app-loader',
   templateUrl: './loader.component.html',
-  styleUrl: './loader.component.scss',
+  styleUrls: ['./loader.component.scss'],
   standalone: false
 })
 export class LoaderComponent {
