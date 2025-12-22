@@ -12,7 +12,15 @@
 	padding: 0.75rem $spacing-unit;
 	display: flex;
 	align-items: center;
-	justify-content: flex-start;
+	justify-content: space-between;
+	gap: 0.5rem;
+	flex-wrap: wrap;
+}
+
+.nav__left,
+.nav__right {
+	display: inline-flex;
+	align-items: center;
 	gap: 0.5rem;
 	flex-wrap: wrap;
 }
@@ -25,6 +33,33 @@
 	border-radius: 8px;
 	font-weight: 600;
 	line-height: 1.2;
+}
+
+.nav__btn {
+	appearance: none;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	padding: 0.5rem 0.75rem;
+	border-radius: 8px;
+	font-weight: 600;
+	line-height: 1.2;
+	border: none;
+	background: rgba(#fff, 0.12);
+	color: #fff;
+	cursor: pointer;
+}
+
+.nav__btn:hover,
+.nav__btn:focus {
+	background: rgba(#fff, 0.18);
+	outline: none;
+}
+
+.nav__user {
+	padding: 0.5rem 0.25rem;
+	font-weight: 600;
+	opacity: 0.95;
 }
 
 .nav a:hover,
@@ -42,7 +77,18 @@
 		align-items: stretch;
 	}
 
+	.nav__left,
+	.nav__right {
+		width: 100%;
+		justify-content: flex-start;
+	}
+
 	.nav a {
+		width: 100%;
+		justify-content: flex-start;
+	}
+
+	.nav__btn {
 		width: 100%;
 		justify-content: flex-start;
 	}

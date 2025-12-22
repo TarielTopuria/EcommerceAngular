@@ -16,6 +16,8 @@ import { NotFoundComponent } from './pages/not-found/not-found';
 import { LoaderComponent } from './shared/components/loader/loader.component';
 import { LoaderInterceptor } from './core/services/loader.interceptor';
 import { CategoryFilterPipe } from './shared/components/category-filter.pipe';
+import { LoginComponent } from './pages/auth/login/login.component';
+import { RegisterComponent } from './pages/auth/register/register.component';
 
 @NgModule({
   declarations: [
@@ -29,7 +31,9 @@ import { CategoryFilterPipe } from './shared/components/category-filter.pipe';
     AdminComponent,
     NotFoundComponent,
     LoaderComponent,
-    CategoryFilterPipe
+    CategoryFilterPipe,
+    LoginComponent,
+    RegisterComponent
   ],
   imports: [
     BrowserModule,

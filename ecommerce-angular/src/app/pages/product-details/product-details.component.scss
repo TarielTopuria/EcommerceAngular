@@ -35,7 +35,7 @@
 
 .product-details__description {
   line-height: 1.6;
-  color: #444;
+  color: var(--app-text-muted);
 }
 
 .product-details__price {
@@ -63,8 +63,8 @@
 }
 
 .btn--secondary {
-  background-color: #e0e0e0;
-  color: #222;
+  background-color: var(--app-border);
+  color: var(--app-text);
 }
 
 .product-details__loading,

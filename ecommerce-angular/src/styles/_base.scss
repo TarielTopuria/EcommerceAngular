@@ -1,8 +1,27 @@
 ﻿@use 'variables' as *;
 
+:root {
+	--app-primary: #{$color-primary};
+	--app-bg: #ffffff;
+	--app-surface: #ffffff;
+	--app-text: #{$color-text};
+	--app-text-muted: rgba(34, 34, 34, 0.78);
+	--app-border: rgba(34, 34, 34, 0.12);
+	--app-danger: #b3261e;
+	--app-success: #2da44e;
+}
+
+:root[data-theme='dark'] {
+	--app-bg: #0b0f14;
+	--app-surface: #111827;
+	--app-text: #e6edf3;
+	--app-text-muted: rgba(230, 237, 243, 0.78);
+	--app-border: rgba(230, 237, 243, 0.16);
+}
+
 *, *::before, *::after { box-sizing: border-box; }
 html, body { height: 100%; }
-body { margin: 0; font-family: system-ui, -apple-system, "Segoe UI", Roboto, Ubuntu, Cantarell, "Noto Sans", "Helvetica Neue", Arial, "Apple Color Emoji", "Segoe UI Emoji"; color: $color-text; }
+body { margin: 0; font-family: system-ui, -apple-system, "Segoe UI", Roboto, Ubuntu, Cantarell, "Noto Sans", "Helvetica Neue", Arial, "Apple Color Emoji", "Segoe UI Emoji"; color: var(--app-text); background: var(--app-bg); }
 a { color: inherit; text-decoration: none; }
 
 img { max-width: 100%; height: auto; display: block; }

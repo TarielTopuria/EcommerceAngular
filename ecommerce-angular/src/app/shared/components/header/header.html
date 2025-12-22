@@ -1,7 +1,25 @@
 <header class="app-header">
   <nav class="nav">
-    <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Home</a>
-    <a routerLink="/cart" routerLinkActive="active">Cart</a>
-    <a routerLink="/admin" routerLinkActive="active">Admin</a>
+    <div class="nav__left">
+      <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Home</a>
+      <a routerLink="/cart" routerLinkActive="active">Cart</a>
+      <a *ngIf="(isAuthenticated$ | async)" routerLink="/admin" routerLinkActive="active">Admin</a>
+    </div>
+
+    <div class="nav__right">
+      <button type="button" class="nav__btn" (click)="toggleTheme()">
+        Theme: {{ (theme$ | async) === 'dark' ? 'Dark' : 'Light' }}
+      </button>
+
+      <ng-container *ngIf="(isAuthenticated$ | async); else loggedOut">
+        <span class="nav__user" *ngIf="(username$ | async) as u">{{ u }}</span>
+        <button type="button" class="nav__btn" (click)="logout()">Logout</button>
+      </ng-container>
+
+      <ng-template #loggedOut>
+        <a routerLink="/login" routerLinkActive="active">Login</a>
+        <a routerLink="/register" routerLinkActive="active">Register</a>
+      </ng-template>
+    </div>
   </nav>
 </header>
