@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { CartService } from '../../core/services/cart.service';
 import { CartItem } from '../../core/models/cart-item.model';
 
@@ -11,18 +12,22 @@ import { CartItem } from '../../core/models/cart-item.model';
 export class CartComponent implements OnInit {
   cartItems: CartItem[] = [];
   totalPrice = 0;
+  quantityForm: FormGroup = new FormGroup({});
 
-  constructor(private readonly cartService: CartService) {}
+  constructor(
+    private readonly cartService: CartService,
+    private readonly fb: FormBuilder
+  ) {}
 
   ngOnInit(): void {
     this.refreshCart();
   }
 
-  onQuantityChange(item: CartItem): void {
-    const productId = item.product.id;
-    const quantity = Math.max(1, Number(item.quantity) || 1);
-    if (quantity !== item.quantity) {
-      item.quantity = quantity;
+  onQuantityChange(productId: number): void {
+    const control = this.quantityForm.get(productId.toString()) as FormControl<number> | null;
+    const quantity = Math.max(1, Number(control?.value) || 1);
+    if (control && control.value !== quantity) {
+      control.setValue(quantity, { emitEvent: false });
     }
     this.cartService.updateQuantity(productId, quantity);
     this.refreshCart();
@@ -47,6 +52,14 @@ export class CartComponent implements OnInit {
 
   private refreshCart(): void {
     this.cartItems = this.cartService.getCartItems();
+    const controls: Record<string, FormControl<number>> = {};
+    for (const item of this.cartItems) {
+      controls[item.product.id.toString()] = new FormControl(item.quantity, {
+        nonNullable: true,
+        validators: [Validators.required, Validators.min(1)],
+      });
+    }
+    this.quantityForm = this.fb.group(controls);
     this.calculateTotalPrice();
   }
 }

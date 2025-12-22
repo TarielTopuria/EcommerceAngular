@@ -3,7 +3,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing-module';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
 import { App } from './app';
 import { Layout } from './shared/components/layout/layout';
 import { Header } from './shared/components/header/header';
@@ -35,7 +35,6 @@ import { CategoryFilterPipe } from './shared/components/category-filter.pipe';
     BrowserModule,
     HttpClientModule,
     AppRoutingModule,
-    FormsModule,
     ReactiveFormsModule
   ],
   providers: [

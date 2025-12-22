@@ -2,7 +2,7 @@
   <h2>Your Cart</h2>
 
   <ng-container *ngIf="cartItems.length > 0; else emptyState">
-    <div class="cart-list">
+    <form class="cart-list" [formGroup]="quantityForm">
       <div class="cart-row cart-header">
         <div class="cart-cell product">Product</div>
         <div class="cart-cell price">Price</div>
@@ -15,14 +15,14 @@
         <div class="cart-cell product">{{ item.product.title }}</div>
         <div class="cart-cell price">${{ item.product.price | number:'1.2-2' }}</div>
         <div class="cart-cell quantity">
-          <input type="number" min="1" [(ngModel)]="item.quantity" (ngModelChange)="onQuantityChange(item)" />
+          <input type="number" min="1" [formControlName]="item.product.id.toString()" (change)="onQuantityChange(item.product.id)" />
         </div>
         <div class="cart-cell subtotal">${{ getItemSubtotal(item) | number:'1.2-2' }}</div>
         <div class="cart-cell actions">
           <button type="button" (click)="removeItem(item.product.id)">Remove</button>
         </div>
       </div>
-    </div>
+    </form>
 
     <div class="cart-total">
       <span>Total:</span>

@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
-import { FormGroup, Validators, NonNullableFormBuilder } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ProductService } from '../../../core/services/product.service';
-import { CreateProduct } from '../../../core/models/product.model';
+import { Product } from '../../../core/models/product.model';
 
 @Component({
   selector: 'app-add-product',
@@ -11,10 +11,9 @@ import { CreateProduct } from '../../../core/models/product.model';
 })
 export class AddProductComponent {
   addProductForm: FormGroup;
-  isSubmitting = false;
 
   constructor(
-    private readonly fb: NonNullableFormBuilder,
+    private readonly fb: FormBuilder,
     private readonly productService: ProductService
   ) {
     this.addProductForm = this.fb.group({
@@ -28,7 +27,7 @@ export class AddProductComponent {
 
   submit(): void {
     this.addProductForm.markAllAsTouched();
-    if (this.addProductForm.invalid || this.isSubmitting) {
+    if (this.addProductForm.invalid) {
       return;
     }
 
@@ -40,7 +39,8 @@ export class AddProductComponent {
       category: string;
     };
 
-    const payload: CreateProduct = {
+    const product: Product = {
+      id: 0,
       title: value.title,
       price: value.price,
       description: value.description,
@@ -48,10 +48,9 @@ export class AddProductComponent {
       category: value.category,
     };
 
-    this.isSubmitting = true;
-
-    this.productService.addProduct(payload).subscribe({
-      next: () => {
+    this.productService.addProduct(product).subscribe({
+      next: (created: Product) => {
+        console.log('Product created:', created);
         this.addProductForm.reset({
           title: '',
           price: 0,
@@ -59,11 +58,9 @@ export class AddProductComponent {
           image: '',
           category: '',
         });
-        this.isSubmitting = false;
       },
       error: (err) => {
         console.error(err);
-        this.isSubmitting = false;
       },
     });
   }
