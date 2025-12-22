@@ -5,17 +5,17 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing-module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { App } from './app';
-import { Layout } from './layout/layout/layout';
-import { Header } from './layout/header/header';
-import { Footer } from './layout/footer/footer';
+import { Layout } from './shared/components/layout/layout';
+import { Header } from './shared/components/header/header';
+import { Footer } from './shared/components/footer/footer';
 import { HomeComponent } from './pages/home/home.component';
 import { ProductDetailsComponent } from './pages/product-details/product-details.component';
 import { CartComponent } from './pages/cart/cart.component';
 import { AddProductComponent } from './pages/admin/add-product/add-product';
 import { NotFoundComponent } from './pages/not-found/not-found';
 import { LoaderComponent } from './shared/components/loader/loader.component';
-import { LoaderInterceptor } from './core/interceptors/loader.interceptor';
-import { CategoryFilterPipe } from './shared/pipes/category-filter.pipe';
+import { LoaderInterceptor } from './core/services/loader.interceptor';
+import { CategoryFilterPipe } from './shared/components/category-filter.pipe';
 
 @NgModule({
   declarations: [

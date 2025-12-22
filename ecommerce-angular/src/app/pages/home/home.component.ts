@@ -1,8 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, DestroyRef, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 import { Product } from '../../core/models/product.model';
 import { ProductService } from '../../core/services/product.service';
+import { CartService } from '../../core/services/cart.service';
 
 @Component({
   selector: 'app-home',
@@ -13,63 +15,46 @@ import { ProductService } from '../../core/services/product.service';
 export class HomeComponent implements OnInit {
   products: Product[] = [];
   categories: string[] = [];
-  selectedCategory: string = 'all';
-  filteredProducts: Product[] = [];
-  isLoading: boolean = false;
-  errorMessage: string | null = null;
+  selectedCategory = 'all';
 
   constructor(
     private readonly productService: ProductService,
-    private readonly router: Router
-    // TODO: Inject CartService when available
+    private readonly cartService: CartService,
+    private readonly router: Router,
+    private readonly destroyRef: DestroyRef
   ) {}
 
   ngOnInit(): void {
-    this.loadCategories();
+    this.productService
+      .getCategories()
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
+        next: (categories: string[]) => {
+          this.categories = categories;
+        },
+        error: (err: unknown) => {
+          console.error(err);
+          this.categories = [];
+        }
+      });
 
-    this.isLoading = true;
-    this.productService.getProducts().subscribe({
-      next: (products: Product[]) => {
-        this.products = products;
-        this.onCategoryChange(this.selectedCategory);
-        this.isLoading = false;
-      },
-      error: (err: unknown) => {
-        // eslint-disable-next-line no-console
-        console.error('Failed to load products', err);
-        this.errorMessage = 'Failed to load products. Please try again later.';
-        this.isLoading = false;
-      }
-    });
-  }
-
-  private loadCategories(): void {
-    this.productService.getCategories().subscribe({
-      next: (categories: string[]) => {
-        this.categories = categories;
-      },
-      error: (err: unknown) => {
-        // eslint-disable-next-line no-console
-        console.error('Failed to load categories', err);
-        this.categories = [];
-      }
-    });
+    this.productService
+      .getProducts()
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
+        next: (products: Product[]) => {
+          this.products = products;
+        },
+        error: (err: unknown) => {
+          console.error(err);
+          this.products = [];
+        }
+      });
   }
 
   onCategorySelect(event: Event): void {
     const selectElement = event.target as HTMLSelectElement;
-    this.onCategoryChange(selectElement.value);
-  }
-
-  onCategoryChange(category: string): void {
-    this.selectedCategory = category;
-
-    if (category === 'all') {
-      this.filteredProducts = this.products;
-      return;
-    }
-
-    this.filteredProducts = this.products.filter((product: Product) => product.category === category);
+    this.selectedCategory = selectElement.value;
   }
 
   goToProductDetails(productId: number): void {
@@ -77,8 +62,6 @@ export class HomeComponent implements OnInit {
   }
 
   addToCart(product: Product): void {
-    // TODO: Replace with CartService.addToCart(product) when CartService is implemented
-    // eslint-disable-next-line no-console
-    console.log('Add to cart:', product);
+    this.cartService.addToCart(product);
   }
 }

@@ -48,10 +48,6 @@ export class CartService {
     }
   }
 
-  isInCart(productId: number): boolean {
-    return this.cartItems.some((ci) => ci.product.id === productId);
-  }
-
   private loadFromStorage(): CartItem[] {
     try {
       const raw = localStorage.getItem(this.STORAGE_KEY);
@@ -87,7 +83,6 @@ export class CartService {
     try {
       localStorage.setItem(this.STORAGE_KEY, JSON.stringify(this.cartItems));
     } catch {
-      // Fail silently to avoid side effects outside the service
     }
   }
 }

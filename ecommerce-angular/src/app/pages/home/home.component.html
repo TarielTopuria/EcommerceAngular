@@ -1,41 +1,22 @@
 <section class="home">
-  <div *ngIf="isLoading" class="state state--loading">Loading products…</div>
-
-  <div *ngIf="!isLoading && errorMessage" class="state state--error">{{ errorMessage }}</div>
-
-  <div *ngIf="!isLoading && !errorMessage && products.length === 0" class="state state--empty">
-    No products available.
-  </div>
-
-  <div *ngIf="!isLoading && !errorMessage && products.length > 0" class="filter">
+  <div class="filter">
     <label class="filter__label" for="categorySelect">Category</label>
     <select
       id="categorySelect"
       class="filter__select"
       [value]="selectedCategory"
       (change)="onCategorySelect($event)"
-      aria-label="Filter products by category"
     >
       <option value="all">All</option>
       <option *ngFor="let category of categories" [value]="category">{{ category }}</option>
     </select>
   </div>
 
-  <div
-    *ngIf="!isLoading && !errorMessage && products.length > 0 && filteredProducts.length === 0"
-    class="state state--empty"
-  >
-    No products found for this category.
-  </div>
-
-  <div *ngIf="!isLoading && !errorMessage && filteredProducts.length > 0" class="grid">
+  <div class="grid">
     <article
       class="card"
-      *ngFor="let product of filteredProducts"
+      *ngFor="let product of products | categoryFilter: selectedCategory"
       (click)="goToProductDetails(product.id)"
-      tabindex="0"
-      role="button"
-      aria-label="View details for {{ product.title }}"
     >
       <div class="card__image">
         <img [src]="product.image" [alt]="product.title" />
@@ -51,7 +32,6 @@
           type="button"
           class="btn btn--primary"
           (click)="$event.stopPropagation(); addToCart(product)"
-          aria-label="Add {{ product.title }} to cart"
         >
           Add to Cart
         </button>
